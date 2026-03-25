@@ -2,9 +2,13 @@ package models;
 
 import exceptions.InvalidInputException;
 
-public class Coordinates {
+import javax.xml.bind.annotation.*;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Coordinates {
+    @XmlElement
     private Float x; //Поле не может быть null
+    @XmlElement
     private Double y; //Значение поля должно быть больше -433, Поле не может быть null
 
     public Coordinates(Float x, Double y ){

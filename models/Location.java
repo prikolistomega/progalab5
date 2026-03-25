@@ -2,10 +2,17 @@ package models;
 
 import exceptions.InvalidInputException;
 
+import javax.xml.bind.annotation.*;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Location {
+    @XmlElement
     private Integer x; //Поле не может быть null
+    @XmlElement
     private Integer y; //Поле не может быть null
+    @XmlElement
     private Integer z; //Поле не может быть null
+    @XmlElement
     private String name; //Поле не может быть null
 
     public Location(int x, int y, int z, String name){
