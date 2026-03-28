@@ -22,7 +22,6 @@ public class Help extends Command {
                 average_of_age - вывести среднее значение поля age для всех элементов коллекции
                 filter_less_than_age age - вывести элементы, значение поля age которых меньше заданного
                 print_unique_weight - вывести уникальные значения поля weight всех элементов в коллекции
-                
                 """;
         return helpMessage;
     }

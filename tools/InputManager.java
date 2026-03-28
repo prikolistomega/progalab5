@@ -4,9 +4,7 @@ package tools;
 import exceptions.InvalidInputException;
 import models.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,13 +12,19 @@ import java.util.Date;
 public class InputManager {
 
     private BufferedReader inputReader;
+    private String scriptPath;
 
 
-    private boolean readingFromFile;
-
-    public InputManager(boolean readingFromFile){
+    public InputManager(){
         inputReader = new BufferedReader(new InputStreamReader(System.in));
-        this.readingFromFile = readingFromFile;
+    }
+
+    public InputManager(String scriptPath) throws FileNotFoundException{
+
+
+        FileInputStream fileInputStream = new FileInputStream(scriptPath);
+        inputReader = new BufferedReader(new InputStreamReader(fileInputStream));
+
     }
 
     public String getLine(){
@@ -28,6 +32,7 @@ public class InputManager {
         try {
             return inputReader.readLine();
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             System.out.println("Не удалось прочесть строку");
         }
         return null;
@@ -252,7 +257,7 @@ public class InputManager {
         color = this.inputColor(true);
         System.out.print("Введите person (не обязательное поле) : ");
         killer = this.inputPerson(true);
-        return new Dragon(name,coordinates,age,weight,speaking,color,killer);
+        return new Dragon(IDCreator.getDragonId() ,name,coordinates,new Date(),age,weight,speaking,color,killer);
 
     }
 

@@ -1,16 +1,18 @@
 package models;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import exceptions.InvalidInputException;
 
-import javax.xml.bind.annotation.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement
 public class Coordinates {
-    @XmlElement
-    private Float x; //Поле не может быть null
-    @XmlElement
-    private Double y; //Значение поля должно быть больше -433, Поле не может быть null
+    @JacksonXmlProperty
+    private Float x;
+    @JacksonXmlProperty
+    private Double y;
 
+    public Coordinates(){}
     public Coordinates(Float x, Double y ){
         this.x = x;
         this.y = y;

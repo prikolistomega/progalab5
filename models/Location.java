@@ -1,20 +1,21 @@
 package models;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import exceptions.InvalidInputException;
 
-import javax.xml.bind.annotation.*;
-
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement
 public class Location {
-    @XmlElement
-    private Integer x; //Поле не может быть null
-    @XmlElement
-    private Integer y; //Поле не может быть null
-    @XmlElement
-    private Integer z; //Поле не может быть null
-    @XmlElement
-    private String name; //Поле не может быть null
+    @JacksonXmlProperty
+    private Integer x;
+    @JacksonXmlProperty
+    private Integer y;
+    @JacksonXmlProperty
+    private Integer z;
+    @JacksonXmlProperty
+    private String name;
 
+    public Location(){}
     public Location(int x, int y, int z, String name){
         this.x = x;
         this.y = y;

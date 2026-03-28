@@ -1,16 +1,21 @@
 package tools;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import models.Dragon;
-import javax.xml.bind.annotation.*;
+
 import java.util.ArrayDeque;
 
-@XmlRootElement(name = "collection")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement
 public class CollectionWrapper {
-    @XmlElement(name = "dragon")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty
     private ArrayDeque<Dragon> collection;
 
-    public CollectionWrapper(ArrayDeque<Dragon> collection){
-        this.collection = collection;
-    }
+    public CollectionWrapper(){}
+
+    public CollectionWrapper(ArrayDeque<Dragon> collection){this.collection = collection;}
+
+    public ArrayDeque<Dragon> getCollection(){return this.collection;}
 }

@@ -1,33 +1,38 @@
 package models;
 
-import javax.xml.bind.annotation.*;
-import java.util.Date;
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Dragon implements Comparable<Dragon>{
-    @XmlAttribute(name = "id")
-    private long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    @XmlElement
-    private String name; //Поле не может быть null, Строка не может быть пустой
-    @XmlElement
-    private Coordinates coordinates; //Поле не может быть null
-    @XmlElement
-    private Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    @XmlElement
-    private long age; //Значение поля должно быть больше 0
-    @XmlElement
-    private Integer weight; //Значение поля должно быть больше 0, Поле может быть null
-    @XmlElement
-    private Boolean speaking; //Поле не может быть null
-    @XmlElement
-    private Color color; //Поле может быть null
-    @XmlElement
-    private Person killer; //Поле может быть null
-    static long count = 1;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-    public Dragon(String name, Coordinates coordinates, long age, Integer weight, Boolean speaking, Color color, Person killer){
-        this.id = count;
-        count++;
-        this.creationDate = new Date();
+import java.util.Date;
+import java.util.Objects;
+
+@JacksonXmlRootElement
+public class Dragon implements Comparable<Dragon>{
+    @JacksonXmlProperty
+    private long id;
+    @JacksonXmlProperty
+    private String name;
+    @JacksonXmlProperty
+    private Coordinates coordinates;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JacksonXmlProperty
+    private Date creationDate;
+    @JacksonXmlProperty
+    private long age;
+    @JacksonXmlProperty
+    private Integer weight;
+    @JacksonXmlProperty
+    private Boolean speaking;
+    @JacksonXmlProperty
+    private Color color;
+    @JacksonXmlProperty
+    private Person killer;
+
+    public Dragon(){}
+    public Dragon(long id, String name, Coordinates coordinates,Date creationDate, long age, Integer weight, Boolean speaking, Color color, Person killer){
+        this.id = id;
+        this.creationDate = creationDate;
         this.name = name;
         this.coordinates = coordinates;
         this.age = age;
@@ -49,14 +54,16 @@ public class Dragon implements Comparable<Dragon>{
                 + "weight = " + this.weight + "\n"
                 + "speaking = " + this.speaking + "\n"
                 + "color = " + this.color + "\n"
-                + "killer = {" + (this.killer == null ? "null" :(this.killer).toString()) +"}\n";
+                + "killer = {" + (this.killer == null ? "null" :(this.killer).toString()) +"}\n\n";
     }
 
     public long getId(){return id;}
     public String getName(){return name;}
     public long getAge(){return age;}
     public Integer getWeight() {return weight;}
+    public Date getCreationDate(){return creationDate;}
 
+    public void setCreationDate(Date date){this.creationDate = date;}
     public void setId(long id){this.id =id;}
 
     @Override
@@ -65,5 +72,19 @@ public class Dragon implements Comparable<Dragon>{
         return this.getName().compareTo(other.getName());
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(this.hashCode() == obj.hashCode()) return true;
+        if(getClass() != obj.getClass()) return false;
+
+        Dragon other = (Dragon) obj;
+        return this.id == other.id;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(id,name,coordinates,creationDate,age,weight,speaking,color,killer);
+    }
 
 }
