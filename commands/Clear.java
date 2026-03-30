@@ -1,13 +1,15 @@
 package commands;
 
+import exceptions.InvalidInputException;
 import models.Dragon;
-
-import static main_classes.ApplicationContext.collection;
+import tools.CollectionManager;
 
 public class Clear extends Command {
 
-    public static String execute(){
-        collection.clear();
-        return "Коллекция очищена";
+    public Clear(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        getManager().clear();
     }
+
 }

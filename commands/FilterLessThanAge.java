@@ -1,16 +1,28 @@
 package commands;
 
+import exceptions.InvalidInputException;
 import models.Dragon;
-
-import static main_classes.ApplicationContext.collection;
+import tools.CollectionManager;
 
 public class FilterLessThanAge extends Command {
 
-    public static String execute(int age){
-        String filtredCollection = "";
-        for(var elem : collection){
-            if(elem.getAge()<age) filtredCollection+=elem.toString();
+    public FilterLessThanAge(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        try {
+            validate();
+            getManager().filterLessThanAge(Long.parseLong(getArg()));
+        }catch (InvalidInputException e){
+            System.out.println(e.getMessage());
         }
-        return filtredCollection;
+
+    }
+
+    public void validate() throws InvalidInputException {
+        try{
+            Long.parseLong(getArg());
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Неверный формат");
+        }
     }
 }

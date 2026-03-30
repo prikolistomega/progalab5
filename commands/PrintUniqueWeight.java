@@ -1,18 +1,15 @@
 package commands;
 
+import exceptions.InvalidInputException;
 import models.Dragon;
+import tools.CollectionManager;
 
-import java.util.HashSet;
-
-import static main_classes.ApplicationContext.collection;
 
 public class PrintUniqueWeight extends Command {
 
-    public static String execute(){
-        HashSet<Integer> set = new HashSet<>();
-        for(var elem: collection){
-            set.add(elem.getWeight());
-        }
-        return set.toString();
+    public PrintUniqueWeight(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        getManager().printUniqueWeight();
     }
 }

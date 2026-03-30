@@ -1,13 +1,17 @@
 package commands;
 
+import exceptions.InvalidInputException;
 import models.Dragon;
+import tools.CollectionManager;
 
-import static main_classes.ApplicationContext.collection;
+import java.util.ArrayDeque;
+
 
 public class Add extends Command {
 
-    public static String execute(Dragon elem){
-        collection.addLast(elem);
-        return "Элемент добавлен";
+    public Add(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        getManager().add();
     }
 }

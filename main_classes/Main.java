@@ -13,15 +13,15 @@ import java.util.ArrayDeque;
 
 public class Main{
     public static void main(String[] args){
+        ArrayDeque<Dragon> collection = new ArrayDeque<Dragon>();
         try {
             XMLReader xmlReader = new XMLReader();
-            ApplicationContext.collection = xmlReader.readXml(args[0]);
+            collection = xmlReader.readXml("collection1.xml");
         }catch (XmlReadingException e){
             System.out.println(e.getMessage());
-            ApplicationContext.collection = new ArrayDeque<Dragon>();
             System.out.println("Коллекция пуста");
         }
-        CollectionManager collectionManager = new CollectionManager(new InputManager());
+        CollectionManager collectionManager = new CollectionManager(new InputManager(),collection);
         collectionManager.startManage();
     }
 }

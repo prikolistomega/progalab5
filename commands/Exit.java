@@ -1,13 +1,14 @@
 package commands;
 
+import exceptions.InvalidInputException;
 import models.Dragon;
-
-import static main_classes.ApplicationContext.collection;
+import tools.CollectionManager;
 
 public class Exit extends Command {
 
-    public static String execute(){
-        System.exit(0);
-        return "";
+    public Exit(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        getManager().exit();
     }
 }

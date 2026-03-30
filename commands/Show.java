@@ -1,16 +1,13 @@
 package commands;
 
-import models.Dragon;
-
-import static main_classes.ApplicationContext.collection;
+import exceptions.InvalidInputException;
+import tools.CollectionManager;
 
 public class Show extends Command {
 
-    public static String execute(){
-        String show = "";
-        for(var elem : collection){
-            show+=elem;
-        }
-        return show;
+    public Show(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        getManager().show();
     }
 }

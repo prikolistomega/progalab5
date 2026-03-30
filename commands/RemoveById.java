@@ -1,18 +1,28 @@
 package commands;
 
-import models.Dragon;
 
-import static main_classes.ApplicationContext.collection;
+import exceptions.InvalidInputException;
+import tools.CollectionManager;
 
 public class RemoveById extends Command {
 
-    public static String execute(long id){
-        for(var elem : collection){
-            if(elem.getId() == id){
-                collection.remove(elem);
-                return "Элемент удалён";
-            }
+    public RemoveById(CollectionManager manager){super(manager);}
+
+    public void execute(){
+        try {
+            validate();
+            getManager().removeById(Long.parseLong(getArg()));
+        }catch (InvalidInputException e){
+            System.out.println(e.getMessage());
         }
-        return "Элемент не найден";
+
+    }
+
+    public void validate() throws InvalidInputException {
+        try{
+            Long.parseLong(getArg());
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Неверный формат");
+        }
     }
 }

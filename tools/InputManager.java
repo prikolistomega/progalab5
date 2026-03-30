@@ -257,7 +257,7 @@ public class InputManager {
         color = this.inputColor(true);
         System.out.print("Введите person (не обязательное поле) : ");
         killer = this.inputPerson(true);
-        return new Dragon(IDCreator.getDragonId() ,name,coordinates,new Date(),age,weight,speaking,color,killer);
+        return new Dragon(-1 ,name,coordinates,new Date(),age,weight,speaking,color,killer);
 
     }
 

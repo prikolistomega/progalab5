@@ -1,28 +1,26 @@
 package commands;
 
-import models.Dragon;
-
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Date;
-
-import static main_classes.ApplicationContext.collection;
+import exceptions.InvalidInputException;
+import tools.CollectionManager;
 
 public class Update extends Command {
+    public Update(CollectionManager manager){super(manager);}
 
-    public static String execute(long id, Dragon updDragon){
-        Dragon[] array = collection.toArray(new Dragon[0]);
-        for(int i =0;i< array.length;i++){
-            if(array[i].getId() == id){
-                Date date = array[i].getCreationDate();
-                array[i] = updDragon;
-                array[i].setId(id);
-                array[i].setCreationDate(date);
-                collection = new ArrayDeque<>(Arrays.asList(array));
-                return "Элемент обновлён";
-            }
+    public void execute(){
+        try {
+            validate();
+            getManager().update(Long.parseLong(getArg()));
+        }catch (InvalidInputException e){
+            System.out.println(e.getMessage());
         }
-        return "Элемент не найден";
 
+    }
+
+    public void validate() throws InvalidInputException {
+        try{
+            Long.parseLong(getArg());
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Неверный формат");
+        }
     }
 }
