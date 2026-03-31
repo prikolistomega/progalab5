@@ -2,10 +2,7 @@ package main_classes;
 
 import exceptions.XmlReadingException;
 import models.Dragon;
-import tools.CollectionManager;
-import tools.CollectionWrapper;
-import tools.InputManager;
-import tools.XMLReader;
+import tools.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +18,9 @@ public class Main{
             System.out.println(e.getMessage());
             System.out.println("Коллекция пуста");
         }
-        CollectionManager collectionManager = new CollectionManager(new InputManager(),collection);
-        collectionManager.startManage();
+        Reader reader = new Reader();
+        CollectionManager collectionManager = new CollectionManager(reader,collection);
+        CommandManager commandManager = new CommandManager(collectionManager,reader);
+        commandManager.startManage();
     }
 }

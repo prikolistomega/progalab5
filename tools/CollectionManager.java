@@ -13,62 +13,25 @@ import java.util.*;
 
 
 public class CollectionManager {
-    private InputManager inputManager;
+    private Reader reader;
     private ArrayDeque<Dragon> collection;
-    private HashMap<String, Command> commands;
 
-    {
-        commands = new HashMap<String,Command>();
-        commands.put("help",new Help(this));
-        commands.put("info",new Info(this));
-        commands.put("show",new Show(this));
-        commands.put("add",new Add(this));
-        commands.put("update",new Update(this));
-        commands.put("remove_by_id",new RemoveById(this));
-        commands.put("clear",new Clear(this));
-        commands.put("save",new Save(this));
-        commands.put("execute_script",new ExecuteScript(this));
-        commands.put("exit",new Exit(this));
-        commands.put("remove_head",new RemoveHead(this));
-        commands.put("add_if_max",new AddIfMax(this));
-        commands.put("add_if_min",new AddIfMin(this));
-        commands.put("average_of_age",new AverageOfAge(this));
-        commands.put("filter_less_than_age",new FilterLessThanAge(this));
-        commands.put("print_unique_speaking",new PrintUniqueWeight(this));
-    }
 
-    public CollectionManager(InputManager inputManager, ArrayDeque<Dragon> collection){
-        this.inputManager = inputManager;
+    public CollectionManager(Reader reader, ArrayDeque<Dragon> collection){
+        this.reader = reader;
         this.collection = collection;
     }
 
-    public void startManage(){
-        while (true){
-            try {
-                var str = inputManager.getLine();
-                if(str==null) break;
-                String[] splittedStr = str.split(" ");
-                if(splittedStr.length ==0) throw new InvalidInputException("Неверный формат");
-                Command command = commands.get(splittedStr[0]);
-                if(splittedStr.length>1) command.setArg(splittedStr[1]);
-                command.execute();
-                command.setArg(null);
-            }catch (InvalidInputException e){
-                System.out.println(e.getMessage());
-            }
-
-        }
-    }
 
     public void add(){
-        Dragon elem = inputManager.inputDragon();
+        Dragon elem = InputManager.inputDragon(reader);
         elem.setId(getMaxId()+1);
         collection.addLast(elem);
         System.out.println("Элемент добавлен");
     }
 
     public void addIfMax(){
-        var newDragon = inputManager.inputDragon();
+        var newDragon = InputManager.inputDragon(reader);
         newDragon.setId(getMaxId()+1);
         Boolean isMax = true;
         for(var elem : collection){
@@ -83,7 +46,7 @@ public class CollectionManager {
     }
 
     public void addIfMin(){
-        var newDragon = inputManager.inputDragon();
+        var newDragon = InputManager.inputDragon(reader);
         newDragon.setId(getMaxId()+1);
         Boolean isMin = true;
         for(var elem : collection){
@@ -119,10 +82,11 @@ public class CollectionManager {
     public void executeScript(String path){
         try {
             if (ExecuteScript.runningScripts >100) throw new RecursionLimitException("Превышен предел рекурсии");
-            InputManager reader = new InputManager(path);
-            CollectionManager manager = new CollectionManager(reader,collection);
+            Reader scriptReader =  new Reader(path);
+            CollectionManager collectionManager = new CollectionManager(scriptReader,collection);
+            CommandManager commandManager = new CommandManager(collectionManager,scriptReader);
             ExecuteScript.runningScripts +=1;
-            manager.startManage();
+            commandManager.startManage();
             ExecuteScript.runningScripts -=1;
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден");
@@ -223,7 +187,7 @@ public class CollectionManager {
     }
 
     public void update(long id){
-        var updDragon = inputManager.inputDragon();
+        var updDragon = InputManager.inputDragon(reader);
         Dragon[] array = collection.toArray(new Dragon[0]);
         for(int i =0;i< array.length;i++){
             if(array[i].getId() == id){

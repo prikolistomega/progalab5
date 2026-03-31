@@ -21,7 +21,6 @@ public abstract class Command {
     }
 
     public void execute(){
-        System.out.println("Команда не найдена. Введите help для помощи.");
     }
 
     public void validate() throws InvalidInputException{}
