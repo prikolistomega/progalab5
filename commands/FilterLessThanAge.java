@@ -11,7 +11,7 @@ public class FilterLessThanAge extends Command {
     public void execute(){
         try {
             validate();
-            getManager().filterLessThanAge(Long.parseLong(getArg()));
+            getManager().filterLessThanAge(Long.parseLong((String) getArgs()[0]));
         }catch (InvalidInputException e){
             System.out.println(e.getMessage());
         }
@@ -20,8 +20,8 @@ public class FilterLessThanAge extends Command {
 
     public void validate() throws InvalidInputException {
         try{
-            Long.parseLong(getArg());
-        } catch (NumberFormatException e) {
+            Long.parseLong((String)getArgs()[0]);
+        } catch (Exception e) {
             throw new InvalidInputException("Неверный формат");
         }
     }

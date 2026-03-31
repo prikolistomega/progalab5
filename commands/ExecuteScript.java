@@ -15,7 +15,7 @@ public class ExecuteScript extends Command{
     public void execute(){
         try {
             validate();
-            getManager().executeScript(getArg());
+            getManager().executeScript((String)getArgs()[0]);
         }catch (InvalidInputException e){
             System.out.println(e.getMessage());
         }
@@ -23,6 +23,6 @@ public class ExecuteScript extends Command{
     }
 
     public void validate() throws InvalidInputException {
-        if(getArg().isEmpty()) throw new InvalidInputException("Неверный формат");
+        if(!(getArgs()[0] instanceof String)) throw new InvalidInputException("Неверный формат");
     }
 }

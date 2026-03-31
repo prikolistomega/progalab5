@@ -19,7 +19,7 @@ public class Main{
             System.out.println("Коллекция пуста");
         }
         Reader reader = new Reader();
-        CollectionManager collectionManager = new CollectionManager(reader,collection);
+        CollectionManager collectionManager = new CollectionManager(collection);
         CommandManager commandManager = new CommandManager(collectionManager,reader);
         commandManager.startManage();
     }

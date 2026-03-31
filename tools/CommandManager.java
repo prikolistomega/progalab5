@@ -3,6 +3,7 @@ package tools;
 import commands.*;
 import exceptions.InvalidInputException;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -39,14 +40,24 @@ public class CommandManager {
                 var str = reader.getLine();
                 if(str==null) break;
                 String[] splittedStr = str.split(" ");
-                if(splittedStr.length ==0) throw new InvalidInputException("Неверный формат");
                 if(!commands.containsKey(splittedStr[0])) throw new InvalidInputException("Команда не найдена. Введите help для помощи.");
                 Command command = commands.get(splittedStr[0]);
-                if(splittedStr.length>1) command.setArg(splittedStr[1]);
+                switch (splittedStr[0]){
+                    case "add","add_if_max","add_if_min":
+                        command.setArgs(InputManager.inputDragon(reader));
+                        break;
+                    case "update":
+                        command.setArgs(splittedStr[1],InputManager.inputDragon(reader));
+                        break;
+                    default:
+                        command.setArgs((Object[]) Arrays.copyOfRange(splittedStr,1,splittedStr.length));
+                        break;
+                }
                 command.execute();
-                command.setArg(null);
             }catch (InvalidInputException e){
                 System.out.println(e.getMessage());
+            }catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("Неверный формат");
             }
 
         }

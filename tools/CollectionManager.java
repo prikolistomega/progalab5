@@ -13,25 +13,21 @@ import java.util.*;
 
 
 public class CollectionManager {
-    private Reader reader;
     private ArrayDeque<Dragon> collection;
 
 
-    public CollectionManager(Reader reader, ArrayDeque<Dragon> collection){
-        this.reader = reader;
+    public CollectionManager( ArrayDeque<Dragon> collection){
         this.collection = collection;
     }
 
 
-    public void add(){
-        Dragon elem = InputManager.inputDragon(reader);
+    public void add(Dragon elem){
         elem.setId(getMaxId()+1);
         collection.addLast(elem);
         System.out.println("Элемент добавлен");
     }
 
-    public void addIfMax(){
-        var newDragon = InputManager.inputDragon(reader);
+    public void addIfMax(Dragon newDragon){
         newDragon.setId(getMaxId()+1);
         Boolean isMax = true;
         for(var elem : collection){
@@ -45,8 +41,7 @@ public class CollectionManager {
         }
     }
 
-    public void addIfMin(){
-        var newDragon = InputManager.inputDragon(reader);
+    public void addIfMin(Dragon newDragon){
         newDragon.setId(getMaxId()+1);
         Boolean isMin = true;
         for(var elem : collection){
@@ -83,8 +78,7 @@ public class CollectionManager {
         try {
             if (ExecuteScript.runningScripts >100) throw new RecursionLimitException("Превышен предел рекурсии");
             Reader scriptReader =  new Reader(path);
-            CollectionManager collectionManager = new CollectionManager(scriptReader,collection);
-            CommandManager commandManager = new CommandManager(collectionManager,scriptReader);
+            CommandManager commandManager = new CommandManager(this,scriptReader);
             ExecuteScript.runningScripts +=1;
             commandManager.startManage();
             ExecuteScript.runningScripts -=1;
@@ -186,8 +180,7 @@ public class CollectionManager {
         }
     }
 
-    public void update(long id){
-        var updDragon = InputManager.inputDragon(reader);
+    public void update(long id,Dragon updDragon){
         Dragon[] array = collection.toArray(new Dragon[0]);
         for(int i =0;i< array.length;i++){
             if(array[i].getId() == id){
