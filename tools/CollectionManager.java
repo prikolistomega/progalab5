@@ -167,7 +167,7 @@ public class CollectionManager {
     public void save(){
         XMLWriter xmlWriter = new XMLWriter();
         try {
-            xmlWriter.toXML(collection);
+            xmlWriter.toXML(collection,ApplicationContext.collectionPath);
             System.out.println("Запись файла прошла успешно");
         }catch (XmlSaveException e){
             System.out.println(e.getMessage());
@@ -202,5 +202,24 @@ public class CollectionManager {
             id = Math.max(id,e.getId());
         }
         return id;
+    }
+
+    public void validate(){
+        HashSet<Long> ids = new HashSet<Long>();
+        ArrayDeque<Dragon> vCollection= new ArrayDeque<Dragon>();
+        for(var e : collection){
+            if(ids.contains(e.getId()) ) System.out.println("Обнаружен повтор id, элемент пропущен");
+            else {
+                ids.add(e.getId());
+                try {
+                    e.validate();
+                    vCollection.add(e);
+                } catch (InvalidInputException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+
+        }
+        collection =vCollection;
     }
 }

@@ -1,13 +1,16 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import exceptions.InvalidInputException;
 
 import java.util.Date;
 import java.util.Objects;
 
-@JacksonXmlRootElement
+@JacksonXmlRootElement(localName = "Dragon")
 public class Dragon implements Comparable<Dragon>{
     @JacksonXmlProperty
     private long id;
@@ -87,4 +90,12 @@ public class Dragon implements Comparable<Dragon>{
         return Objects.hash(id,name,coordinates,creationDate,age,weight,speaking,color,killer);
     }
 
+    public void validate() throws InvalidInputException {
+        if(name==null) throw new InvalidInputException("Неверный формат в элементе");
+        if(weight !=null && weight<=0) throw new InvalidInputException("Неверный формат в элементе");
+        if(age<=0) throw new InvalidInputException("Неверный формат в элементе");
+        if(speaking==null) throw new InvalidInputException("Неверный формат в элементе");
+        coordinates.validate();
+        if( killer != null && !killer.isEmpty())killer.validate();
+    }
 }

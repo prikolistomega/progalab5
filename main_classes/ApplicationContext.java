@@ -8,5 +8,5 @@ import java.util.Date;
 
 public class ApplicationContext {
     public static Date creationTime = new Date();
-
+    public static String collectionPath;
 }

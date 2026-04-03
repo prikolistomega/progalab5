@@ -10,7 +10,7 @@ import java.util.ArrayDeque;
 @JacksonXmlRootElement
 public class CollectionWrapper {
     @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty
+    @JacksonXmlProperty(localName = "Dragon")
     private ArrayDeque<Dragon> collection;
 
     public CollectionWrapper(){}

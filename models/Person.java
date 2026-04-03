@@ -1,6 +1,10 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import exceptions.InvalidInputException;
@@ -41,4 +45,14 @@ public class Person {
                 "nationality = " + this.nationality + "\n" +
                 "location = {" + (this.location == null ? "null": (this.location).toString()) + "}\n" ;
     }
+
+    public void validate() throws InvalidInputException{
+        if(name.isEmpty()|| birthday==null || passportID == null) throw new InvalidInputException("Неверный формат в элементе");
+
+    }
+    @JsonIgnore
+    public boolean isEmpty(){
+        return name ==null && birthday == null && passportID ==null && location ==null && nationality==null;
+    }
+
 }

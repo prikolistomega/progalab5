@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class XMLWriter {
 
-    public void toXML(ArrayDeque<Dragon> collection){
-        try (FileWriter writer = new FileWriter("collection" + NumberOfCollectionCreator.getNumb() +".xml")){
+    public void toXML(ArrayDeque<Dragon> collection,String path){
+        try (FileWriter writer = new FileWriter(path)){
             XmlMapper xmlMapper = new XmlMapper();
             String xml = xmlMapper.writeValueAsString( new CollectionWrapper(collection));
             writer.write(xml);

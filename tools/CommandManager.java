@@ -2,6 +2,7 @@ package tools;
 
 import commands.*;
 import exceptions.InvalidInputException;
+import main_classes.ApplicationContext;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,16 +20,16 @@ public class CommandManager {
         commands.put("help",new Help(collectionManager));
         commands.put("info",new Info(collectionManager));
         commands.put("show",new Show(collectionManager));
-        commands.put("add",new Add(collectionManager));
-        commands.put("update",new Update(collectionManager));
-        commands.put("remove_by_id",new RemoveById(collectionManager));
-        commands.put("clear",new Clear(collectionManager));
+        commands.put("add",new Add(collectionManager));//
+        commands.put("update",new Update(collectionManager));//
+        commands.put("remove_by_id",new RemoveById(collectionManager));//
+        commands.put("clear",new Clear(collectionManager));//
         commands.put("save",new Save(collectionManager));
-        commands.put("execute_script",new ExecuteScript(collectionManager));
+        commands.put("execute_script",new ExecuteScript(collectionManager));//
         commands.put("exit",new Exit(collectionManager));
-        commands.put("remove_head",new RemoveHead(collectionManager));
-        commands.put("add_if_max",new AddIfMax(collectionManager));
-        commands.put("add_if_min",new AddIfMin(collectionManager));
+        commands.put("remove_head",new RemoveHead(collectionManager));//
+        commands.put("add_if_max",new AddIfMax(collectionManager));//
+        commands.put("add_if_min",new AddIfMin(collectionManager));//
         commands.put("average_of_age",new AverageOfAge(collectionManager));
         commands.put("filter_less_than_age",new FilterLessThanAge(collectionManager));
         commands.put("print_unique_speaking",new PrintUniqueWeight(collectionManager));
@@ -36,7 +37,9 @@ public class CommandManager {
 
     public void startManage(){
         while (true){
+            collectionManager.validate();
             try {
+                if(FileChecker.check(ApplicationContext.collectionPath));
                 var str = reader.getLine();
                 if(str==null) break;
                 String[] splittedStr = str.split(" ");

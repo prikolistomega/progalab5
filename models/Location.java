@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import exceptions.InvalidInputException;
@@ -25,11 +26,21 @@ public class Location {
 
     @Override
     public String toString(){
+        if(isEmpty()) return "null";
         return "Location : \n" +
                 "x = " + this.x + "\n" +
                 "y = " + this.y + "\n" +
                 "z = " + this.z + "\n" +
                 "name = " + this.name + "\n";
+    }
+
+    public void validate() throws InvalidInputException{
+        if(x==null || y==null || z==null|| name.isEmpty()) throw new InvalidInputException("Неверный формат в элементе");
+    }
+
+    @JsonIgnore
+    public boolean isEmpty(){
+        return x==null && y==null && z == null && name == null;
     }
 
 }

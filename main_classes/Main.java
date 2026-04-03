@@ -10,10 +10,11 @@ import java.util.ArrayDeque;
 
 public class Main{
     public static void main(String[] args){
+        ApplicationContext.collectionPath = "collection.xml";
         ArrayDeque<Dragon> collection = new ArrayDeque<Dragon>();
         try {
             XMLReader xmlReader = new XMLReader();
-            collection = xmlReader.readXml("collection1.xml");
+            collection = xmlReader.readXml(ApplicationContext.collectionPath);
         }catch (XmlReadingException e){
             System.out.println(e.getMessage());
             System.out.println("Коллекция пуста");
