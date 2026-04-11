@@ -8,7 +8,7 @@ import tools.CollectionManager;
 public class Info extends Command {
 
     public Info(CollectionManager manager){super(manager);}
-
+    public Info(){}
     public void execute(){
         getManager().info();
     }

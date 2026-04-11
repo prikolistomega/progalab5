@@ -1,6 +1,8 @@
 package tools;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import commands.Command;
 import exceptions.XmlReadingException;
 import exceptions.XmlSaveException;
 import models.Dragon;
@@ -10,12 +12,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class XMLReader {
 
-    public ArrayDeque<Dragon> readXml(String path){
+    public ArrayDeque<Dragon> readXmlCollection(String path){
         try {
             String xml = Files.readString(Paths.get(path));
             Pattern pattern = Pattern.compile("<Dragon>(.*?)</Dragon>");
@@ -35,5 +38,15 @@ public class XMLReader {
             return new ArrayDeque<Dragon>();
         }
 
+    }
+
+    public CommandList readXmlJournal(String path){
+        try {
+            String xml = Files.readString(Paths.get(path));
+            XmlMapper xmlMapper = new XmlMapper();
+            return xmlMapper.readValue(xml, CommandList.class);
+        }catch (Exception e){
+            throw new XmlReadingException("Не удалось прочитать журнал");
+        }
     }
 }

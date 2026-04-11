@@ -4,6 +4,8 @@ import commands.*;
 import exceptions.InvalidInputException;
 import main_classes.ApplicationContext;
 
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
@@ -12,11 +14,15 @@ public class CommandManager {
     private Reader reader;
     private CollectionManager collectionManager;
     private HashMap<String, Command> commands;
+    private JournalManager journalManager;
+    private Boolean isHavingJournal;
 
-    public CommandManager(CollectionManager collectionManager,Reader reader){
+    public CommandManager(CollectionManager collectionManager,Reader reader,Boolean isHavingJournal){
         this.reader = reader;
         this.collectionManager = collectionManager;
         commands = new HashMap<String,Command>();
+        this.isHavingJournal = isHavingJournal;
+        journalManager = new JournalManager();
         commands.put("help",new Help(collectionManager));
         commands.put("info",new Info(collectionManager));
         commands.put("show",new Show(collectionManager));
@@ -33,9 +39,12 @@ public class CommandManager {
         commands.put("average_of_age",new AverageOfAge(collectionManager));
         commands.put("filter_less_than_age",new FilterLessThanAge(collectionManager));
         commands.put("print_unique_speaking",new PrintUniqueWeight(collectionManager));
+
     }
 
     public void startManage(){
+        //здесь проверка на наличие журнала
+        if(isHavingJournal) checkOldJournal();
         while (true){
             collectionManager.validate();
             try {
@@ -47,22 +56,46 @@ public class CommandManager {
                 Command command = commands.get(splittedStr[0]);
                 switch (splittedStr[0]){
                     case "add","add_if_max","add_if_min":
-                        command.setArgs(InputManager.inputDragon(reader));
+                        command.setArgs(new Arg(InputManager.inputDragon(reader)));
                         break;
                     case "update":
-                        command.setArgs(splittedStr[1],InputManager.inputDragon(reader));
+                        command.setArgs(new Arg(splittedStr[1]), new Arg(InputManager.inputDragon(reader)));
                         break;
                     default:
-                        command.setArgs((Object[]) Arrays.copyOfRange(splittedStr,1,splittedStr.length));
+                        command.setArgs(Arg.toArgList(Arrays.copyOfRange(splittedStr,1,splittedStr.length)));
                         break;
                 }
                 command.execute();
+                if(isHavingJournal) updateJournal(command);
             }catch (InvalidInputException e){
                 System.out.println(e.getMessage());
             }catch (ArrayIndexOutOfBoundsException e){
                 System.out.println("Неверный формат");
             }
 
+        }
+    }
+
+    public void updateJournal(Command command){
+        Class<?>[] pushableCommands = {Add.class,AddIfMin.class, AddIfMax.class, Clear.class, ExecuteScript.class,RemoveById.class,RemoveHead.class, Update.class};
+        for(var cls : pushableCommands){
+            if(cls.isInstance(command)) journalManager.addCommand(command);
+        }
+        if(command instanceof Save) journalManager.clearJournal();
+        journalManager.saveJournal();
+    }
+
+    public void checkOldJournal(){
+        journalManager.readJournal();
+        CommandList oldJournal = journalManager.getJournal();
+        if(!oldJournal.getCommands().isEmpty()){
+            System.out.println("Найдены несохраненные изменения. Восстановить? (true/false)");
+            if(InputManager.inputBool(reader,false) ){
+                for(Command command : oldJournal.getCommands()) {
+                    command.setManager(collectionManager);
+                    command.execute();
+                }
+            }
         }
     }
 

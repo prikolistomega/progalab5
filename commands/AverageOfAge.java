@@ -9,7 +9,7 @@ import tools.CollectionManager;
 public class AverageOfAge extends Command {
 
     public AverageOfAge(CollectionManager manager){super(manager);}
-
+    public AverageOfAge(){}
     public void execute(){
         getManager().averageOfAge();
     }

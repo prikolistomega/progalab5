@@ -7,7 +7,7 @@ import tools.CollectionManager;
 public class Exit extends Command {
 
     public Exit(CollectionManager manager){super(manager);}
-
+    public Exit(){}
     public void execute(){
         getManager().exit();
     }

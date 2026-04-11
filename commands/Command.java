@@ -1,20 +1,36 @@
 package commands;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import exceptions.InvalidInputException;
-import models.Dragon;
+import tools.Arg;
 import tools.CollectionManager;
 
-import java.util.ArrayDeque;
-import java.util.Objects;
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type"
+)
 
-public abstract class Command { ;
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Add.class,name = "Add"),
+        @JsonSubTypes.Type(value = AddIfMax.class,name = "AddIfMax"),
+        @JsonSubTypes.Type(value = AddIfMin.class,name = "AddIfMin"),
+        @JsonSubTypes.Type(value = Clear.class,name = "Clear"),
+        @JsonSubTypes.Type(value = ExecuteScript.class,name = "ExecuteScript"),
+        @JsonSubTypes.Type(value = RemoveById.class,name = "RemoveById"),
+        @JsonSubTypes.Type(value = RemoveHead.class,name = "RemoveHead"),
+        @JsonSubTypes.Type(value = Update.class,name = "Update"),
+})
+public abstract class Command {
+    @JsonIgnore
     private CollectionManager manager;
-    private Object[] args;
+    private Arg[] args;
 
     public Command(CollectionManager manager){
         this.manager = manager;
     }
+    public Command(){}
 
     public void execute(){
     }
@@ -22,7 +38,8 @@ public abstract class Command { ;
     public void validate() throws InvalidInputException{}
 
     public CollectionManager getManager() {return manager;}
-    public Object[] getArgs(){return args;}
+    public Arg[] getArgs(){return args;}
 
-    public void setArgs(Object... args) {this.args = args;}
+    public void setArgs(Arg... args) {this.args = args;}
+    public void setManager(CollectionManager manager){this.manager = manager;}
 }

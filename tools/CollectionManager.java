@@ -78,7 +78,7 @@ public class CollectionManager {
         try {
             if (ExecuteScript.runningScripts >100) throw new RecursionLimitException("Превышен предел рекурсии");
             Reader scriptReader =  new Reader(path);
-            CommandManager commandManager = new CommandManager(this,scriptReader);
+            CommandManager commandManager = new CommandManager(this,scriptReader,false);
             ExecuteScript.runningScripts +=1;
             commandManager.startManage();
             ExecuteScript.runningScripts -=1;
@@ -167,7 +167,7 @@ public class CollectionManager {
     public void save(){
         XMLWriter xmlWriter = new XMLWriter();
         try {
-            xmlWriter.toXML(collection,ApplicationContext.collectionPath);
+            xmlWriter.dequeToXML(collection,ApplicationContext.collectionPath);
             System.out.println("Запись файла прошла успешно");
         }catch (XmlSaveException e){
             System.out.println(e.getMessage());
@@ -197,7 +197,7 @@ public class CollectionManager {
     }
 
     public long getMaxId(){
-        long id = 1;
+        long id = 0;
         for(var e : collection){
             id = Math.max(id,e.getId());
         }

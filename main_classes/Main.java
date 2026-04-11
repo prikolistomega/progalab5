@@ -14,14 +14,14 @@ public class Main{
         ArrayDeque<Dragon> collection = new ArrayDeque<Dragon>();
         try {
             XMLReader xmlReader = new XMLReader();
-            collection = xmlReader.readXml(ApplicationContext.collectionPath);
+            collection = xmlReader.readXmlCollection(ApplicationContext.collectionPath);
         }catch (XmlReadingException e){
             System.out.println(e.getMessage());
             System.out.println("Коллекция пуста");
         }
         Reader reader = new Reader();
         CollectionManager collectionManager = new CollectionManager(collection);
-        CommandManager commandManager = new CommandManager(collectionManager,reader);
+        CommandManager commandManager = new CommandManager(collectionManager,reader,true);
         commandManager.startManage();
     }
 }
