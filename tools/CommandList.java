@@ -7,12 +7,21 @@ import commands.Command;
 
 import java.util.ArrayList;
 
+/**
+ * Представляет список команд.
+ */
 @JacksonXmlRootElement(localName = "commands")
 public class CommandList {
+    /**
+     * Коллекция команд.
+     */
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "command")
     private ArrayList<Command> commands;
 
+    /**
+     * Создание экземпляра {@code CommandList}
+     */
     public CommandList(ArrayList<Command> list){this.commands = list;}
     public CommandList(){this.commands = new ArrayList<Command>();}
 

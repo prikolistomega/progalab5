@@ -10,13 +10,34 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
 
+/**
+ * Класс, управляющий вводом команд и их исполнением.
+ */
 public class CommandManager {
+    /**
+     * {@code Reader}, откуда будут читаться вводные данные.
+     */
     private Reader reader;
+    /**
+     * Управляемая коллекция.
+     */
     private CollectionManager collectionManager;
+    /**
+     * Словарь, хранящий для каждого строкового имени команды соотвествующий экземпляр.
+     */
     private HashMap<String, Command> commands;
+    /**
+     *  Менеджер, управляющий журналом команд.
+     */
     private JournalManager journalManager;
+    /**
+     * Флаг, имеет ли экземпляр журнал.
+     */
     private Boolean isHavingJournal;
 
+    /**
+     * Создание экземепляра {@code CommandManager}.
+     */
     public CommandManager(CollectionManager collectionManager,Reader reader,Boolean isHavingJournal){
         this.reader = reader;
         this.collectionManager = collectionManager;
@@ -42,13 +63,15 @@ public class CommandManager {
 
     }
 
+    /**
+     * Начинает обработку ввода комманд.
+     */
     public void startManage(){
         //здесь проверка на наличие журнала
         if(isHavingJournal) checkOldJournal();
         while (true){
             collectionManager.validate();
             try {
-                if(FileChecker.check(ApplicationContext.collectionPath));
                 var str = reader.getLine();
                 if(str==null) break;
                 String[] splittedStr = str.split(" ");
@@ -76,6 +99,10 @@ public class CommandManager {
         }
     }
 
+    /**
+     * Обновляет журнал после исполнения команды.
+     * @param command исполненная команда.
+     */
     public void updateJournal(Command command){
         Class<?>[] pushableCommands = {Add.class,AddIfMin.class, AddIfMax.class, Clear.class, ExecuteScript.class,RemoveById.class,RemoveHead.class, Update.class};
         for(var cls : pushableCommands){
@@ -85,6 +112,9 @@ public class CommandManager {
         journalManager.saveJournal();
     }
 
+    /**
+     * Проверяет, существует ли не пустой журнал. При необходимости выполняет все комманды из него.
+     */
     public void checkOldJournal(){
         journalManager.readJournal();
         CommandList oldJournal = journalManager.getJournal();

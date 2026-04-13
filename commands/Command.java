@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import exceptions.InvalidInputException;
 import tools.Arg;
 import tools.CollectionManager;
-
+/**
+ * Абстрактный класс-предок всех команд.
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type"
 )
@@ -22,19 +24,37 @@ import tools.CollectionManager;
         @JsonSubTypes.Type(value = RemoveHead.class,name = "RemoveHead"),
         @JsonSubTypes.Type(value = Update.class,name = "Update"),
 })
+
 public abstract class Command {
     @JsonIgnore
+    /**
+     * {@link tools.CollectionManager}, в котором будет исполнена команда.
+     */
     private CollectionManager manager;
+    /**
+     * Массив аргументов команды.
+     */
     private Arg[] args;
 
+    /**
+     * Создание экземпляра команды
+     * @param manager {@link tools.CollectionManager}, в котором будет исполнена команда.
+     */
     public Command(CollectionManager manager){
         this.manager = manager;
     }
     public Command(){}
 
+    /**
+     * Исполнение команды.
+     */
     public void execute(){
     }
-
+    /**
+     * Валидация аргументов команды.
+     *
+     * @throws InvalidInputException исключение, выбрасываемое в случае неуспешной валидации.
+     */
     public void validate() throws InvalidInputException{}
 
     public CollectionManager getManager() {return manager;}

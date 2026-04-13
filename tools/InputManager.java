@@ -9,8 +9,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Содержит статичсекие методы, преобразующие вводимые данные в обьекты.
+ */
 public class InputManager {
-    
+    /**
+     * Создает обьект {@code Integer} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Integer}.
+     */
     public static Integer inputInt(Reader reader, boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -23,7 +31,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Long} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Long}.
+     */
     public static Long inputLong(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -36,7 +49,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Float} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Float}.
+     */
     public static Float inputFloat(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -49,7 +67,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Double} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Double}.
+     */
     public static Double inputDouble(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -62,7 +85,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code String} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code String}.
+     */
     public static String inputString(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -75,7 +103,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Boolean} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Boolean}.
+     */
     public static Boolean inputBool(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -88,7 +121,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Date} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Date}.
+     */
     public static Date inputDate(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -102,7 +140,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Color} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Color}.
+     */
     public static Color inputColor(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -115,7 +158,12 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Country} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Country}.
+     */
     public static Country inputCountry(Reader reader,boolean nullable){
         while(true){
             var str = reader.getLine();
@@ -128,7 +176,11 @@ public class InputManager {
             }
         }
     }
-
+    /**
+     * Создает обьект {@code Coordinates} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @return Вводимый обьект {@code Coordinates}.
+     */
     public static Coordinates inputCoordinates(Reader reader){
         float x;
         double y;
@@ -146,7 +198,12 @@ public class InputManager {
         }
         return new Coordinates(x,y);
     }
-
+    /**
+     * Создает обьект {@code Location} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Location}.
+     */
     public static Location inputLocation(Reader reader,boolean nullable){
         if(nullable){
             boolean flag;
@@ -166,7 +223,12 @@ public class InputManager {
         name = inputString(reader,false);
         return new Location(x,y,z,name);
     }
-
+    /**
+     * Создает обьект {@code Person} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @param nullable может ли быть вводимый обьект null.
+     * @return Вводимый обьект {@code Person}.
+     */
     public static Person inputPerson(Reader reader,boolean nullable){
         if(nullable){
             boolean flag;
@@ -190,7 +252,11 @@ public class InputManager {
         location = inputLocation(reader,true);
         return new Person(name,birthday,passportID,nationality,location);
     }
-
+    /**
+     * Создает обьект {@code Dragon} из пользовательского ввода.
+     * @param reader обьект, реализующий чтение.
+     * @return Вводимый обьект {@code Dragon}.
+     */
     public static Dragon inputDragon(Reader reader){
         String name; //Поле не может быть null, Строка не может быть пустой
         Coordinates coordinates; //Поле не может быть null

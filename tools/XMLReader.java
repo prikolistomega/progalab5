@@ -16,8 +16,16 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Класс, реализующий чтение XML-файлов.
+ */
 public class XMLReader {
 
+    /**
+     * Читает XML-файл коллекции.
+     * @param path путь до файла.
+     * @return прочитанная коллекция.
+     */
     public ArrayDeque<Dragon> readXmlCollection(String path){
         try {
             String xml = Files.readString(Paths.get(path));
@@ -39,7 +47,11 @@ public class XMLReader {
         }
 
     }
-
+    /**
+     * Читает XML-файл журнала команд..
+     * @param path путь до файла.
+     * @return прочитанный журнал.
+     */
     public CommandList readXmlJournal(String path){
         try {
             String xml = Files.readString(Paths.get(path));

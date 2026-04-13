@@ -6,20 +6,39 @@ import exceptions.XmlSaveException;
 
 import java.util.ArrayList;
 
+/**
+ * Класс, управляющий журналом команд.
+ */
 public class JournalManager {
 
+    /**
+     * Журнал команд.
+     */
     public CommandList journal;
 
+    /**
+     * Создание экземпляра {@code JournalManager}
+     */
     public JournalManager(){journal = new CommandList();}
 
+    /**
+     * Добавляет команду в журнал.
+     * @param command добавляемая команда.
+     */
     public void addCommand(Command command){
         journal.getCommands().add(command);
     }
 
+    /**
+     * Очищает журнал.
+     */
     public void clearJournal(){
         journal.getCommands().clear();
     }
 
+    /**
+     * Записывает журнал в файл.
+     */
     public void saveJournal(){
         try {
             XMLWriter xmlWriter = new XMLWriter();
@@ -30,6 +49,9 @@ public class JournalManager {
 
     }
 
+    /**
+     * Читает журнал из файла.
+     */
     public void readJournal(){
         try {
             XMLReader xmlReader = new XMLReader();

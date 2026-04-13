@@ -8,7 +8,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayDeque;
 
+/**
+ * Точка входа в программу.
+ */
+
 public class Main{
+    /**
+     * Запускает программу.
+     * @param args аргументы командной строки.
+     */
     public static void main(String[] args){
         ApplicationContext.collectionPath = "collection.xml";
         ArrayDeque<Dragon> collection = new ArrayDeque<Dragon>();

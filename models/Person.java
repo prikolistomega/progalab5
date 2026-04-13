@@ -12,21 +12,44 @@ import exceptions.InvalidInputException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Представялет {@code Person} co всеми характеристиками.
+ */
 @JacksonXmlRootElement
 public class Person {
+    /**
+     * Имя {@code Person}.
+     */
     @JacksonXmlProperty
     private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
+    /**
+     * Дата рождения {@code Person}.
+     */
     @JacksonXmlProperty
     private java.util.Date birthday;
+    /**
+     * ID паспорта {@code Person}.
+     */
     @JacksonXmlProperty
     private String passportID;
+    /**
+     * Национальность {@code Person}.
+     */
     @JacksonXmlProperty
     private Country nationality;
+    /**
+     * Местоположение {@code Person}.
+     */
     @JacksonXmlProperty
     private Location location;
 
     public Person(){}
+
+    /**
+     * Созданике экземпляра {@code Person}.
+     */
     public Person(String name, Date birthday, String passportID, Country nationality, Location location){
         this.name = name;
         this.birthday = birthday;
@@ -45,11 +68,18 @@ public class Person {
                 "nationality = " + this.nationality + "\n" +
                 "location = {" + (this.location == null ? "null": (this.location).toString()) + "}\n" ;
     }
-
+    /**
+     * Валидация полей {@code Person}
+     * @throws InvalidInputException выбрасывается при неуспешной валидации.
+     */
     public void validate() throws InvalidInputException{
         if(name.isEmpty()|| birthday==null || passportID == null) throw new InvalidInputException("Неверный формат в элементе");
 
     }
+
+    /**
+     * Проверяет поля на null.
+     */
     @JsonIgnore
     public boolean isEmpty(){
         return name ==null && birthday == null && passportID ==null && location ==null && nationality==null;

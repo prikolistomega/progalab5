@@ -10,29 +10,72 @@ import exceptions.InvalidInputException;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Представляет {@code Dragon} с описанием всех характеристик
+ */
 @JacksonXmlRootElement(localName = "Dragon")
 public class Dragon implements Comparable<Dragon>{
+    /**
+     * Уникальный индефикатор {@code Dragon}.
+     * Поле не может быть null, Значение поля должно быть больше 0.
+     */
     @JacksonXmlProperty
     private long id;
+    /**
+     * Имя {@code Dragon}.
+     * Поле не может быть null, Строка не может быть пустой.
+     */
     @JacksonXmlProperty
     private String name;
+    /**
+     * Местоположение {@code Dragon}.
+     * Поле не может быть null.
+     */
     @JacksonXmlProperty
     private Coordinates coordinates;
+    /**
+     * Время инициализации эземпляра {@code Dragon}.
+     * Поле не может быть null.
+     */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JacksonXmlProperty
     private Date creationDate;
+    /**
+     * Возраст {@code Dragon}.
+     * Значение поля должно быть больше 0.
+     */
     @JacksonXmlProperty
     private long age;
+    /**
+     * Вес {@code Dragon}.
+     * Значение поля должно быть больше 0, Поле может быть null.
+     */
     @JacksonXmlProperty
     private Integer weight;
+    /**
+     * Может ли {@code Dragon} говорить.
+     * Поле не может быть null.
+     */
     @JacksonXmlProperty
     private Boolean speaking;
+    /**
+     * Цвет {@code Dragon}.
+     * Поле может быть null.
+     */
     @JacksonXmlProperty
     private Color color;
+    /**
+     * Убийца {@code Dragon}.
+     * Поле может быть null.
+     */
     @JacksonXmlProperty
     private Person killer;
 
     public Dragon(){}
+
+    /**
+     * Создает экземпляр {@code Dragon}.
+     */
     public Dragon(long id, String name, Coordinates coordinates,Date creationDate, long age, Integer weight, Boolean speaking, Color color, Person killer){
         this.id = id;
         this.creationDate = creationDate;
@@ -69,12 +112,21 @@ public class Dragon implements Comparable<Dragon>{
     public void setCreationDate(Date date){this.creationDate = date;}
     public void setId(long id){this.id =id;}
 
+    /**
+     * Реализует сравнение.
+     * @param other сравниваемый {@code Dragon}.
+     * @return Положительное число если экземпляр больше, иначе отрицательное.
+     */
     @Override
     public int compareTo(Dragon other){
         if(other ==null) return 1;
         return this.getName().compareTo(other.getName());
     }
 
+    /**
+     * Проверяет на равенство объектов.
+     * @param obj   Сравниваемый обьект
+     */
     @Override
     public boolean equals(Object obj){
         if(this == obj) return true;
@@ -85,11 +137,19 @@ public class Dragon implements Comparable<Dragon>{
         return this.id == other.id;
     }
 
+    /**
+     * Получает хэш-код объекта.
+     * @return хэш-код.
+     */
     @Override
     public int hashCode(){
         return Objects.hash(id,name,coordinates,creationDate,age,weight,speaking,color,killer);
     }
 
+    /**
+     * Валидация полей {@code Dragon}.
+     * @throws InvalidInputException выбрасывается при неуспешной валидации.
+     */
     public void validate() throws InvalidInputException {
         if(name==null) throw new InvalidInputException("Неверный формат в элементе");
         if(weight !=null && weight<=0) throw new InvalidInputException("Неверный формат в элементе");

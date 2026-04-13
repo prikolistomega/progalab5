@@ -7,6 +7,9 @@ import models.Dragon;
 
 import java.util.ArrayDeque;
 
+/**
+ * Класс-обёртка для коллекции.
+ */
 @JacksonXmlRootElement
 public class CollectionWrapper {
     @JacksonXmlElementWrapper(useWrapping = false)

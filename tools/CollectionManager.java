@@ -11,22 +11,36 @@ import models.Dragon;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-
+/**
+ * Коллекция с методами для ей управления.
+ */
 public class CollectionManager {
+    /**
+     * Коллекция.
+     */
     private ArrayDeque<Dragon> collection;
 
-
+    /**
+     * Создание экзмепляра {@code CollectionManager}.
+     * @param collection коллекция.
+     */
     public CollectionManager( ArrayDeque<Dragon> collection){
         this.collection = collection;
     }
 
-
+    /**
+     * Реализация команды {@code add}.
+     * @param elem добавляемый {@code Dragon}.
+     */
     public void add(Dragon elem){
         elem.setId(getMaxId()+1);
         collection.addLast(elem);
         System.out.println("Элемент добавлен");
     }
-
+    /**
+     * Реализация команды {@code add_if_max}.
+     * @param newDragon добавляемый {@code Dragon}.
+     */
     public void addIfMax(Dragon newDragon){
         newDragon.setId(getMaxId()+1);
         Boolean isMax = true;
@@ -40,7 +54,10 @@ public class CollectionManager {
             System.out.println("Элемент не максимальный");
         }
     }
-
+    /**
+     * Реализация команды {@code add_if_min}.
+     * @param newDragon добавляемый {@code Dragon}.
+     */
     public void addIfMin(Dragon newDragon){
         newDragon.setId(getMaxId()+1);
         Boolean isMin = true;
@@ -54,7 +71,9 @@ public class CollectionManager {
             System.out.println("Элемент не минимальный");
         }
     }
-
+    /**
+     * Реализация команды {@code average_of_age}.
+     */
     public void averageOfAge(){
         try {
             if(collection.isEmpty()) throw new EmptyDequeException("Коллекция пуста");
@@ -68,12 +87,17 @@ public class CollectionManager {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Реализация команды {@code clear}.
+     */
     public void clear(){
         collection.clear();
         System.out.println("Коллекция очищена");
     }
-
+    /**
+     * Реализация команды {@code execute_script}.
+     * @param path путь до скрипта.
+     */
     public void executeScript(String path){
         try {
             if (ExecuteScript.runningScripts >100) throw new RecursionLimitException("Превышен предел рекурсии");
@@ -88,11 +112,16 @@ public class CollectionManager {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Реализация команды {@code exit}.
+     */
     public void exit(){
         System.exit(0);
     }
-
+    /**
+     * Реализация команды {@code filter_less_than_age}.
+     * @param age значение, по которому происходит фильтрация.
+     */
     public void filterLessThanAge(long age){
         String filtredCollection = "";
         for(var elem : collection){
@@ -100,7 +129,9 @@ public class CollectionManager {
         }
         System.out.println(filtredCollection);
     }
-
+    /**
+     * Реализация команды {@code help}.
+     */
     public void help(){
         String helpMessage = """
                 Доступные команды:
@@ -124,7 +155,9 @@ public class CollectionManager {
                 """;
         System.out.println(helpMessage);
     }
-
+    /**
+     * Реализация команды {@code info}.
+     */
     public void info(){
         String info = String.format("""
                 Информация о коллекции:
@@ -135,7 +168,9 @@ public class CollectionManager {
                 """, ApplicationContext.creationTime,collection.size());
         System.out.println(info);
     }
-
+    /**
+     * Реализация команды {@code print_unique_weight}.
+     */
     public void printUniqueWeight(){
         HashSet<Integer> set = new HashSet<>();
         for(var elem: collection){
@@ -143,7 +178,10 @@ public class CollectionManager {
         }
         System.out.println(set.toString());
     }
-
+    /**
+     * Реализация команды {@code remove_by_id}.
+     * @param id id удаляемого объекта.
+     */
     public void removeById(long id){
         for(var elem : collection){
             if(elem.getId() == id){
@@ -154,7 +192,9 @@ public class CollectionManager {
         }
         System.out.println("Элемент не найден");
     }
-
+    /**
+     * Реализация команды {@code remove_head}.
+     */
     public void removeHead(){
         try {
             if(collection.isEmpty()) throw new EmptyDequeException("Коллекция пуста");
@@ -163,7 +203,9 @@ public class CollectionManager {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Реализация команды {@code save}.
+     */
     public void save(){
         XMLWriter xmlWriter = new XMLWriter();
         try {
@@ -173,13 +215,19 @@ public class CollectionManager {
             System.out.println(e.getMessage());
         }
     }
-
+    /**
+     * Реализация команды {@code show}.
+     */
     public void show(){
         for(var elem : collection){
             System.out.println(elem);
         }
     }
-
+    /**
+     * Реализация команды {@code update}.
+     * @param id id обновляемого объекта.
+     * @param updDragon новое значение обьекта.
+     */
     public void update(long id,Dragon updDragon){
         Dragon[] array = collection.toArray(new Dragon[0]);
         for(int i =0;i< array.length;i++){
@@ -195,7 +243,10 @@ public class CollectionManager {
         }
         System.out.println("Элемент не найден");
     }
-
+    /**
+     * Получения максимального id среди объектов коллекции.
+     * @return максимальный id.
+     */
     public long getMaxId(){
         long id = 0;
         for(var e : collection){
@@ -203,7 +254,10 @@ public class CollectionManager {
         }
         return id;
     }
-
+    /**
+     * Валидация элементов коллекции.
+     * Элементы, не прошедшие валидацию, удаляются из коллекции.
+     */
     public void validate(){
         HashSet<Long> ids = new HashSet<Long>();
         ArrayDeque<Dragon> vCollection= new ArrayDeque<Dragon>();
